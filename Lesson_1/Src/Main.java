@@ -3,7 +3,7 @@ public class Main {
         double x = 0.5;
         double eps = 1e-5;
         if (args.length == 0) {
-            System.err.println("There must be at least one argument");
+            System.err.println("Error: There must be at least one argument");
             System.exit(1);
         }
     
