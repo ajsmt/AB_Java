@@ -1,3 +1,4 @@
 @echo OFF
-javac Main.java
-java Main input.txt
+javac *.java
+java MainArray < input.txt
+java MainArrayList < input.txt
