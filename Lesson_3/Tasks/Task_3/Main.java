@@ -1,90 +1,54 @@
-import java.io.File;
 import java.util.Scanner;
-import java.util.Arrays;
-
-class WrongInputException extends RuntimeException {
-    public WrongInputException(String message) {
-        super(message);
-    }
-}
+import java.util.ArrayList;
 
 class Main {
     public static void main(String[] args) {
-        try {
-            if (args.length != 1) {
-                throw new WrongInputException("Wrong number of arguments");
-            }
-
-            // Получаем расширенную матрицу соответствующую системе линейных уравнений
-            double[][] matrix = MatrixInput(args[0]);
-            // Вывод этой матрицы на экран
-            System.out.println("Matrix: ");
-            printMatrix(matrix);
-            // Получение решения
-            double[] solution = solveMatrix(matrix);
-            // Вывод решения
-            System.out.println("Solution:");
-            for (double x : solution) {
-                System.out.printf("%.8f \n", x);
-            }
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-    }
-
-    public static double[][] MatrixInput(String input) throws Exception {
-        Scanner scanner = new Scanner(new File(input));
-        if (!scanner.hasNext()) {
-            scanner.close();
-            throw new WrongInputException("No input size");
-        }
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input n : ");
         int n = scanner.nextInt();
-        int m = scanner.nextInt();
-        double[][] matrix = new double[n][m];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                matrix[i][j] = scanner.nextDouble();
-            }
-        }
-        if (scanner.hasNextDouble()) {
-            scanner.close();
-            throw new WrongInputException("Too many arguments");
-        }
         scanner.close();
-        return matrix;
+        GeneratePascalTriangleArray(n);
+        GeneratePascalTriangleArrayList(n);
     }
 
-    public static void printMatrix(final double[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + " ");
+    public static void GeneratePascalTriangleArray(int n) {
+        int[][] triangle = new int[n][];
+        for (int i = 0; i < n; i++) {
+            triangle[i] = new int[i + 1];
+            triangle[i][0] = 1;
+            triangle[i][i] = 1;
+            for (int j = 1; j < i; j++) {
+                triangle[i][j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
+            }
+        }
+        System.out.println("Array : ");
+        for (int[] row : triangle) {
+            for (int element : row) {
+                System.out.print(element + " ");
             }
             System.out.println();
         }
     }
 
-    public static double[] solveMatrix(final double[][] inputMatrix) throws Exception {
-        double[][] matrix = CopyMatrix(inputMatrix);
-        int n = matrix.length;
-        int m = matrix[0].length;
-        double[] solution = new double[n];
-        for (int i = n - 1; i >= 0; i--) {
-            matrix[i][m - 1] /= matrix[i][i];
-            for (int j = 0; j < i; j++)
-                matrix[j][m - 1] -= matrix[j][i] * matrix[i][m - 1];
-        }
-        for (int i = 0; i < n; i++)
-            solution[i] = matrix[i][m - 1];
-        return solution;
-    }
-
-    public static double[][] CopyMatrix(double[][] matrix) throws Exception {
-        double[][] result = new double[matrix.length][matrix[0].length];
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                result[i][j] = matrix[i][j];
+    public static void GeneratePascalTriangleArrayList(int n) {
+        ArrayList<ArrayList<Integer>> triangle = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    row.add(1);
+                } else {
+                    row.add(triangle.get(i - 1).get(j - 1) + triangle.get(i - 1).get(j));
+                }
             }
+            triangle.add(row);
         }
-        return result;
+        System.out.println("ArrayList : ");
+        for (ArrayList<Integer> row : triangle) {
+            for (int i : row) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
     }
 }
