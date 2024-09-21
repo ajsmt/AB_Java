@@ -1,3 +1,8 @@
+/*
+Напишите программу, сохраняющую треугольник Паскаля вплоть до заданной
+величины п в переменной типа ArrayList<ArrayList<Integer».
+*/
+
 import java.util.Scanner;
 import java.util.ArrayList;
 

@@ -1,6 +1,14 @@
+/*
+Ввод матрицы осуществлять из файла посредством класса Scanner. Проверять
+ошибочные ситуации, в т.ч. недостатка или избытка входных данных. Матрицу
+представлять в виде [][].
+*/
+/*
+1. Найти решение треугольной системы линейных уравнений
+*/
+
 import java.io.File;
 import java.util.Scanner;
-import java.util.Arrays;
 
 class WrongInputException extends RuntimeException {
     public WrongInputException(String message) {
