@@ -10,4 +10,4 @@ if exist "source" (
     javac -d build run.cmd\*.java
 )
 
-java -cp ./build Calculator
+java -cp ./build Main
