@@ -1,7 +1,5 @@
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 abstract class Series{
     protected double firstElement;
@@ -37,7 +35,7 @@ abstract class Series{
     public void writeToFile(String file, int n){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             bw.write(this.toString(n));
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
