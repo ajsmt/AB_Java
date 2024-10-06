@@ -25,7 +25,7 @@ abstract class Series{
     public String toString(int n) {
         StringBuffer sb = new StringBuffer();
         for (int i = 1; i <= n; i++) 
-            sb.append(String.format("%.6f", getJthElement(i))).append(" ");
+            sb.append(String.format("%.3f", getJthElement(i))).append(" ");
         return sb.toString();
     }
 
