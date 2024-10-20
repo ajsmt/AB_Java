@@ -1,0 +1,8 @@
+Course: Math
+Students:
+Person [name=Lloyd], login: te2, email: gevsis@uhiminlub.fm, supervisor: Academic [name=Paul Deitel], Postgraduate
+Person [name=Minnie], login: pr3, email: mehgumtuc@waba.eh, supervisor: Academic [name=Cay Horstmann], Undegraduate
+Person [name=Alice], login: al123, email: nis@wo.vn, supervisor: Academic [name=Ray Carroll], Undegraduate
+Person [name=Bryan], login: gg4, email: al@diwjowo.jm, supervisor: Academic [name=Paul Deitel], Undegraduate
+Person [name=Nellie], login: yj34, email: vo@vinotowa.tj, supervisor: Academic [name=Cay Horstmann], Postgraduate
+Person [name=Jack], login: jj8, email: denjafum@foeko.tz, supervisor: Academic [name=Cay Horstmann], Postgraduate
