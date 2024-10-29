@@ -7,28 +7,34 @@ import java.util.Set;
 
 public class MyFrame extends JFrame {
 
-    private JTextArea InputArea;
-    private JTextArea OutputArea;
+    private JTextArea inputArea;
+    private JTextArea outputArea;
     private JButton openButton;
     private JButton editButton;
     private JButton saveButton;
     private JButton clearButton;
     private JButton addButton;
+    private Set<Student> students;
+    private Set<String> courses;
 
     public MyFrame(String title) {
         super(title);
+
+        students = new HashSet<>();
+        courses = new HashSet<>();
+
         setResizable(false);
         setLayout(new BorderLayout());
-        InputArea = new JTextArea();
-        OutputArea = new JTextArea();
-        InputArea.setPreferredSize(new Dimension(230, 300));
-        OutputArea.setPreferredSize(new Dimension(230, 300));
-        InputArea.setLineWrap(true);
-        InputArea.setWrapStyleWord(true);
-        OutputArea.setLineWrap(true);
-        OutputArea.setWrapStyleWord(true);
-        add(new JScrollPane(InputArea), BorderLayout.WEST);
-        add(new JScrollPane(OutputArea), BorderLayout.EAST);
+        inputArea = new JTextArea();
+        outputArea = new JTextArea();
+        inputArea.setPreferredSize(new Dimension(230, 300));
+        outputArea.setPreferredSize(new Dimension(230, 300));
+        inputArea.setLineWrap(true);
+        inputArea.setWrapStyleWord(true);
+        outputArea.setLineWrap(true);
+        outputArea.setWrapStyleWord(true);
+        add(new JScrollPane(inputArea), BorderLayout.WEST);
+        add(new JScrollPane(outputArea), BorderLayout.EAST);
 
         openButton = new JButton("Open File");
         editButton = new JButton("Edit");
@@ -53,13 +59,13 @@ public class MyFrame extends JFrame {
                     File file = chooser.getSelectedFile();
                     try {
                         BufferedReader br = new BufferedReader(new FileReader(file));
-                        StringBuilder sb = new StringBuilder();
                         String line;
                         while ((line = br.readLine()) != null) {
-                            sb.append(line).append("\n");
+                            Student student = Student.studentPars(line);
+                            students.add(student);
                         }
-                        InputArea.setText(sb.toString());
                         br.close();
+                        writeinputArea();
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(MyFrame.this, "Error: " + ex.getMessage(), "Error",
                                 JOptionPane.ERROR_MESSAGE);
@@ -71,17 +77,13 @@ public class MyFrame extends JFrame {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String inputText = InputArea.getText();
-                if(inputText.equals("")){
+                if (students.isEmpty()) {
                     return;
                 }
-                String[] lines = inputText.split("\n");
-                Set<String> courses = new HashSet<String>();
-                for (String line : lines) {
-                    String[] values = line.split(",");
-                    courses.add(values[2].trim() + '\n');
+                for(Student st : students) {
+                    courses.add(st.getCourse());
                 }
-                OutputArea.append(String.join("", courses));
+                writeoutputArea();
             }
         });
 
@@ -95,9 +97,14 @@ public class MyFrame extends JFrame {
                     File file = chooser.getSelectedFile();
                     try {
                         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-                        bw.write(OutputArea.getText());
+                        StringBuffer sb = new StringBuffer();
+                        for(String  course : courses){
+                            sb.append(course + '\n');
+                        }
+                        bw.write(sb.toString());
                         bw.close();
-                        JOptionPane.showMessageDialog(MyFrame.this, "File saved!", "Done", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(MyFrame.this, "File saved!", "Done",
+                                JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(MyFrame.this, "Error: " + ex.getMessage(), "Error",
                                 JOptionPane.ERROR_MESSAGE);
@@ -109,15 +116,17 @@ public class MyFrame extends JFrame {
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OutputArea.setText("");
+                courses = new HashSet<>();
+                writeoutputArea();
             }
         });
 
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addCourseDialog dialog = new addCourseDialog(OutputArea);
+                addCourseDialog dialog = new addCourseDialog(courses);
                 dialog.setVisible(true);
+                writeoutputArea();
             }
         });
 
@@ -126,5 +135,19 @@ public class MyFrame extends JFrame {
         pack();
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void writeinputArea(){
+        inputArea.setText("");
+        for(Student st : students) {
+            inputArea.append(st.toString() + '\n');
+        }
+    }
+
+    private void writeoutputArea(){
+        outputArea.setText("");
+        for(String course : courses) {
+            outputArea.append(course + '\n');
+        }
     }
 }

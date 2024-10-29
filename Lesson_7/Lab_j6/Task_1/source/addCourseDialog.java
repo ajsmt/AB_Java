@@ -10,11 +10,11 @@ public class addCourseDialog extends JDialog {
 
     private JTextField courseField;
     private JButton addButton;
-    private JTextArea outputArea;
+    private Set<String> courses;
 
-    public addCourseDialog(JTextArea outputArea) {
+    public addCourseDialog(Set<String> courses) {
         super();
-        this.outputArea = outputArea;
+        this.courses = courses;
         setTitle("Add Course");
         setLayout(new BorderLayout());
         setModal(true);
@@ -39,16 +39,7 @@ public class addCourseDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 String course = courseField.getText().trim();
                 if (!course.isEmpty()) {
-                    String text = outputArea.getText();
-                    Set<String> courses = new HashSet<>();
-                    if (!text.equals("")) {
-                        String[] lines = text.split("\n");
-                        for (String line : lines) {
-                            courses.add(line);
-                        }
-                    }
                     courses.add(course);
-                    outputArea.setText(String.join("\n", courses));
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(addCourseDialog.this, "Please enter a course", "Error",
