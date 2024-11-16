@@ -1,0 +1,5 @@
+ForestTree_1 5 hvoinoe 1 24
+ForestTree_3 4 hvoinoe 2 12
+SForestTree_1 3 leaf 4 63
+ForestTree_5 10 hvoinoe 2 15
+SForestTree_10 8 leaf 5 36
